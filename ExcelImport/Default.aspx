@@ -36,8 +36,9 @@
                             <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
                         </EditItemTemplate>
                         <ItemTemplate>
-                            <asp:DropDownList ID="DropDownList1" runat="server">
+                            <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
                             </asp:DropDownList>
+                            <asp:Label ID="Label2" runat="server" ForeColor="Red" Text=""></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>

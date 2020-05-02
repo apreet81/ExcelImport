@@ -73,15 +73,15 @@ namespace DemoFile
                     // The result of each spreadsheet is in result.Tables
 
 
-                    for (int i = 0; i < dtCurrentTable.Rows.Count; i++)
+                    //for (int i = 0; i < dtCurrentTable.Rows.Count; i++)
 
-                    {
-                        //extract the DropDownList Selected Items
+                    //{
+                    //    //extract the DropDownList Selected Items
 
-                        DropDownList ddl1 = (DropDownList)GridView1.Rows[i].Cells[1].FindControl("DropDownList1");
+                    //    DropDownList ddl1 = (DropDownList)GridView1.Rows[i].Cells[1].FindControl("DropDownList1");
 
-                        FillDropDownList(ddl1);
-                    }
+                    //    FillDropDownList(ddl1);
+                    //}
                 }
             }
         }
@@ -91,6 +91,7 @@ namespace DemoFile
         {
             ArrayList arr = new ArrayList();
 
+            arr.Add(new ListItem("Select Column", "0"));
             arr.Add(new ListItem("Item1", "1"));
 
             arr.Add(new ListItem("Item2", "2"));
@@ -177,7 +178,36 @@ namespace DemoFile
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                DropDownList ddl1 = e.Row.FindControl("DropDownList1") as DropDownList;
+                FillDropDownList(ddl1);
+            }
+        }
 
+        protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool isValid = true;
+            foreach (GridViewRow row in GridView1.Rows)
+            {
+                DropDownList ddl1 = row.FindControl("DropDownList1") as DropDownList;
+
+                DropDownList currentDropdown = (DropDownList)sender;
+
+                Label lbl = (Label)row.FindControl("Label2");
+                lbl.Text = string.Empty;
+                if (ddl1.SelectedItem.Value == currentDropdown.SelectedItem.Value && ddl1.ClientID != currentDropdown.ClientID)
+                {
+                    lbl.Text = "Invalid data";
+                    isValid = false;
+                }
+            }
+            if (!isValid)
+            {
+                DataControlFieldCell item = (DataControlFieldCell)((DropDownList)sender).Parent;
+                Label lbl = (Label)item.FindControl("Label2");
+                lbl.Text = "Invalid data";
+            }
         }
     }
 }
