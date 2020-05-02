@@ -16,25 +16,11 @@
                 OnClick="btnUpload_Click" />
 
             <br />
-
-            <asp:Label ID="Label1" runat="server" Text="Has Header ?" />
-
-            <asp:RadioButtonList ID="rbHDR" runat="server">
-
-                <asp:ListItem Text="Yes" Value="Yes" Selected="True">
-                </asp:ListItem>
-
-                <asp:ListItem Text="No" Value="No"></asp:ListItem>
-            </asp:RadioButtonList>
-
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False"
                 OnPageIndexChanging="PageIndexChanging" AllowPaging="true" OnRowDataBound="GridView1_RowDataBound">
-                 <Columns>
-                      <asp:BoundField DataField="Columns" HeaderText="Level" />
+                <Columns>
+                    <asp:BoundField DataField="Columns" HeaderText="Level" />
                     <asp:TemplateField HeaderText="Qualification">
-                        <EditItemTemplate>
-                            <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
-                        </EditItemTemplate>
                         <ItemTemplate>
                             <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
                             </asp:DropDownList>
@@ -43,6 +29,7 @@
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Submit" />
         </div>
     </form>
 </body>
