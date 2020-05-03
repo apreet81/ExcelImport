@@ -48,7 +48,6 @@ namespace DemoFile
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
                     // Choose one of either 1 or 2:
-
                     // 1. Use the reader methods
                     do
                     {
@@ -75,8 +74,10 @@ namespace DemoFile
             }
         }
 
+        /// <summary>
+        /// Dropdown items list.
+        /// </summary>
         private ArrayList GetDummyData()
-
         {
             ArrayList arr = new ArrayList();
 
@@ -105,6 +106,9 @@ namespace DemoFile
             }
         }
 
+        /// <summary>
+        /// Convert excel header in datatable to rows in new datatable.
+        /// </summary>
         public static DataTable FlipDataTable(DataTable dt)
 
         {
@@ -124,6 +128,9 @@ namespace DemoFile
             return table;
         }
 
+        /// <summary>
+        /// Handle page change event of gridview 1.
+        /// </summary>
         protected void PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             string FolderPath = ConfigurationManager.AppSettings["FolderPath"];
@@ -136,6 +143,9 @@ namespace DemoFile
             GridView1.DataBind();
         }
 
+        /// <summary>
+        /// Handle databound event of gridview 1.
+        /// </summary>
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -145,6 +155,9 @@ namespace DemoFile
             }
         }
 
+        /// <summary>
+        /// Validate all dropdown on change of value in a dropdown.
+        /// </summary>
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
         {
             bool isValid = true;
@@ -168,6 +181,10 @@ namespace DemoFile
             }
         }
 
+        /// <summary>
+        /// Validate data before saving.
+        /// </summary>
+        /// <returns></returns>
         private bool ValidateData()
         {
             foreach (GridViewRow row in GridView1.Rows)
@@ -181,10 +198,14 @@ namespace DemoFile
             return true;
         }
 
-        protected void Button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Submit data to save in database.
+        /// </summary>
+        protected void Submit_Click(object sender, EventArgs e)
         {
             try
             {
+                // Proceed further only if data is valid.
                 if (ValidateData())
                 {
                     DataTable actualData = (DataTable)ViewState["CurrentTable"];
@@ -192,6 +213,7 @@ namespace DemoFile
                     gridData.Columns.Add("ExcelColumn");
                     gridData.Columns.Add("DbColumn");
 
+                    // Read gridview data in datatable.
                     foreach (GridViewRow row in GridView1.Rows)
                     {
                         DropDownList ddl1 = (DropDownList)row.FindControl("DropDownList1");
@@ -203,6 +225,8 @@ namespace DemoFile
                             gridData.Rows.Add(dr);
                         }
                     }
+
+                    // Save data in database according to user selected column mapping.
                     using (AppDbContext context = new AppDbContext())
                     {
                         foreach (DataRow actualDataRow in actualData.Rows)
@@ -283,6 +307,9 @@ namespace DemoFile
             }
         }
 
+        /// <summary>
+        /// Change view back to upload file, from success message.
+        /// </summary>
         protected void LinkButton1_Click(object sender, EventArgs e)
         {
             FileUploadPanel.Visible = true;

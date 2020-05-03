@@ -46,7 +46,7 @@
                     <br />
                 </div>
                 <div class="row text-center">
-                    <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Submit" />
+                    <asp:Button ID="Submit" runat="server" OnClick="Submit_Click" Text="Submit" />
                 </div>
             </asp:Panel>
             <asp:Panel runat="server" ID="successMessagePanel" Visible="false">
