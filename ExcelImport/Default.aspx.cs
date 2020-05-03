@@ -23,12 +23,18 @@ namespace DemoFile
             {
                 string FileName = Path.GetFileName(FileUpload1.PostedFile.FileName);
                 string Extension = Path.GetExtension(FileUpload1.PostedFile.FileName);
-                string FolderPath = ConfigurationManager.AppSettings["FolderPath"];
-                string FilePath = Server.MapPath(FolderPath + FileName);
+                string FolderPath = Server.MapPath(ConfigurationManager.AppSettings["FolderPath"]);
+                if (!Directory.Exists(FolderPath))
+                {
+                    Directory.CreateDirectory(FolderPath);
+                }
+                string FilePath = FolderPath + FileName;
                 FileUpload1.SaveAs(FilePath);
                 GridView1.Caption = FileName;
                 GridView1.DataSource = ReadExcel(FilePath);
                 GridView1.DataBind();
+                FileUploadPanel.Visible = false;
+                gridPanel.Visible = true;
             }
         }
 
@@ -266,12 +272,22 @@ namespace DemoFile
                         }
                         context.SaveChanges();
                     }
+
+                    gridPanel.Visible = false;
+                    successMessagePanel.Visible = true;
                 }
             }
             catch (Exception ex)
             {
 
             }
+        }
+
+        protected void LinkButton1_Click(object sender, EventArgs e)
+        {
+            FileUploadPanel.Visible = true;
+            successMessagePanel.Visible = false;
+            gridPanel.Visible = false;
         }
     }
 }
